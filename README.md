@@ -2,17 +2,10 @@
 
 Developed a full-stack Airbnb clone with CRUD operations, user authentication, and data validation, integrating Mapbox for location services and Cloudinary for image management
 
-<p align="center">
-  <b style="color: blue;  ">Visitor count</b>
-  <br>
-  <a style="" href="https://github.com/shashi-srivastav">
-  <img src="https://profile-counter.glitch.me/namaste-yatra/count.svg" />
-  </a>
-</p>
 
 ## Authors
 
-- [@shashi-srivastava](https://github.com/Shashi-Srivastav)
+-@akshitakumar
 
 
 ## Technologies Used
@@ -38,7 +31,7 @@ Developed a full-stack Airbnb clone with CRUD operations, user authentication, a
 
 
 ## Features
-# Namaste Yatra: Key Features
+# aithiHome: Key Features
 
 ## User Authentication and Security:
 - **Passport Integration:** Secure sign-up and login.
