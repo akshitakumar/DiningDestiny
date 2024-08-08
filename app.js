@@ -17,8 +17,8 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
-
 const dbUrl = process.env.ATLASDB_URL;
+
 main()
   .then(() => {
     console.log("Connected to DB");
@@ -28,12 +28,13 @@ main()
   });
 
 async function main() {
-
   await mongoose.connect(dbUrl);
 }
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+const viewsPath = path.join(__dirname, "views");
+console.log('Views path:', viewsPath); // Log the resolved views path
+app.set("views", viewsPath);
 app.engine("ejs", ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -41,14 +42,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
-  crypto:{
+  crypto: {
     secret: process.env.SECRET,
   },
-  touchAfter : 24*3600
+  touchAfter: 24 * 3600,
 });
 
-store.on("error",()=>{
-  console.log("error in mongo session store",err);
+store.on("error", (err) => {
+  console.log("Error in mongo session store", err);
 });
 
 const sessionOptions = {
@@ -61,9 +62,6 @@ const sessionOptions = {
     httpOnly: true,
   },
 };
-
-
-
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -91,7 +89,6 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
-// Search route
 app.get('/search', async (req, res) => {
   const query = req.query.q || '';
   if (!query.trim()) {
@@ -121,7 +118,7 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).render("listings/error.ejs", { statusCode, message });
+  res.status(statusCode).render("listings/error", { statusCode, message });
 });
 
 const PORT = process.env.PORT || 8080;
