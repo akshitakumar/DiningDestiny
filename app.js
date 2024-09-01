@@ -32,9 +32,7 @@ async function main() {
 }
 
 app.set("view engine", "ejs");
-const viewsPath = path.join(__dirname, "views");
-console.log('Views path:', viewsPath); // Log the resolved views path
-app.set("views", viewsPath);
+app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -42,14 +40,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
-  crypto: {
+  crypto:{
     secret: process.env.SECRET,
   },
-  touchAfter: 24 * 3600,
+  touchAfter : 24*3600
 });
 
-store.on("error", (err) => {
-  console.log("Error in mongo session store", err);
+store.on("error",()=>{
+  console.log("error in mongo session store",err);
 });
 
 const sessionOptions = {
@@ -81,8 +79,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// Redirect the root URL to the listings page
 app.get("/", (req, res) => {
-  res.render("index", { currUser: req.user });
+  res.redirect("/listings");
 });
 
 app.use("/listings", listingRouter);
@@ -98,8 +97,8 @@ app.get('/search', async (req, res) => {
 
   try {
     const listings = await Listing.find({
-      title: { $regex: query, $options: 'i' } // Case-insensitive search
-    }).exec();
+      $text: { $search: query }
+    });
 
     if (listings.length === 0) {
       req.flash('error', 'No listings found matching your search criteria.');
@@ -118,7 +117,7 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).render("listings/error", { statusCode, message });
+  res.status(statusCode).render("listings/error.ejs", { statusCode, message });
 });
 
 const PORT = process.env.PORT || 8080;

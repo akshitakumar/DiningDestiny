@@ -12,7 +12,6 @@ const listingSchema = new Schema({
     url: String,
     filename: String,
   },
-  
   price: Number,
   location: String,
   country: String,
@@ -24,24 +23,17 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  geometry : {
+  geometry: {
     type: {
-    type: String, // Don't do `{ location: { type: String } }`
-    enum: ['Point'], // 'location.type' must be 'Point'
-    required: true
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
   },
-  coordinates: {
-    type: [Number],
-    required: true
-  }
-},
-
-  category:{
-    type:String,
-    enum:["Trending","Rooms","Cities",
-      "Mountains","Castles","Beaches","Campings","Farms",
-      "Arctic"],
-  }
 });
 
 // Add a text index on fields you want to be searchable
