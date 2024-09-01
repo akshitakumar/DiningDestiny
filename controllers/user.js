@@ -14,7 +14,7 @@ module.exports.signup=async (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            req.flash("success", "Welcome to AthtiHome");
+            req.flash("success", "Welcome to Destiny Delight");
             res.redirect("/listings");
         });
     } catch (error) {

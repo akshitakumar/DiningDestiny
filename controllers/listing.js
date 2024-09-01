@@ -86,23 +86,36 @@ module.exports.destroyListings = async (req, res) => {
   res.redirect('/listings');
 };
 
-module.exports.searchListings = async (req, res) => {
-  const query = req.query.q.trim();
+// const Listing = require("../models/listing");
+
+module.exports.search = async (req, res) => {
+  const query = req.query.q.trim().replace(/\s+/g, " ");
+
   if (!query) {
-    req.flash('error', 'Please provide a search query.');
-    return res.redirect('/listings');
+    req.flash("error", "Search value empty !!!");
+    return res.redirect("/listings");
   }
 
   try {
-    const listings = await Listing.find({ $text: { $search: query } });
+    const searchRegex = new RegExp(query, 'i');  // case-insensitive search
+    const allListings = await Listing.find({
+      $or: [
+        { title: { $regex: searchRegex } },
+        { location: { $regex: searchRegex } },
+        { country: { $regex: searchRegex } },
+        { price: { $lte: parseInt(query) } }
+      ]
+    });
 
-    if (listings.length === 0) {
-      req.flash('error', 'No listings found matching your search criteria.');
-      return res.redirect('/listings');
-    }    
-    res.render('listings/index', { allListings: listings });
+    if (allListings.length > 0) {
+      res.render("listings/searchResults.ejs", { allListings });
+    } else {
+      req.flash("error", "No listings found.");
+      res.render("listings/searchResults.ejs", { allListings: [] });
+    }
   } catch (error) {
-    req.flash('error', 'An error occurred during the search.');
-    res.redirect('/listings');
+    req.flash("error", "An error occurred during the search.");
+    res.redirect("/listings");
   }
 };
+
