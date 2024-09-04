@@ -1,6 +1,6 @@
-# aithtiHome
+# DiningDestiny
 
-Developed a full-stack Airbnb clone with CRUD operations, user authentication, and data validation, integrating Mapbox for location services and Cloudinary for image management
+"Developed a full-stack dine-in restaurant website featuring CRUD operations, user authentication, and data validation. The platform integrates Mapbox for precise location services and Cloudinary for seamless image management. This website is designed to assist users in discovering the best restaurants in unfamiliar cities, ensuring they can enjoy a great meal wherever they are."
 
 
 ## Authors
@@ -31,7 +31,7 @@ Developed a full-stack Airbnb clone with CRUD operations, user authentication, a
 
 
 ## Features
-# aithiHome: Key Features
+# DiningDestiny: Key Features
 
 ## User Authentication and Security:
 - **Passport Integration:** Secure sign-up and login.
