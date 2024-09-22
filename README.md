@@ -53,9 +53,6 @@
 - **Review System:** Users can leave detailed reviews.
 - **Map-Enhanced Reviews:** Reviews include geolocation data.
 
-## Responsive Design:
-- **Bootstrap Framework:** Consistent UI across desktops, tablets, and mobiles.
-
 ## Scalable Data Management:
 - **Mongoose and MongoDB:** Flexible and scalable data storage.
 - **MongoDB Atlas:** Reliable cloud-based storage.
